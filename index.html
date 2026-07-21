@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <!-- saved from url=(0045)file:///C:/Users/aitke/Downloads/index_1.html -->
 <html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Big Crumbs — Mobile App Studio</title>
   <style>
@@ -156,6 +156,103 @@
       .hero { padding: 64px 0 56px; }
       footer .container { flex-direction: column; align-items: flex-start; }
     }
+
+    .projects {
+      padding: 72px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .carousel-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      position: relative;
+      overflow: hidden;
+    }
+    .carousel-track {
+      display: flex;
+      transition: transform 0.4s ease;
+      width: 100%;
+    }
+    .carousel-slide {
+      min-width: 100%;
+      padding: 40px;
+      background: #111;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .slide-eyebrow {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      color: var(--mid);
+      text-transform: uppercase;
+    }
+    .carousel-slide h3 {
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--white);
+    }
+    .carousel-slide p {
+      font-size: 14px;
+      color: rgba(245,245,243,0.55);
+      line-height: 1.7;
+      max-width: 480px;
+    }
+    .slide-link {
+      font-size: 13px;
+      color: var(--white);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(255,255,255,0.2);
+      padding-bottom: 2px;
+      align-self: flex-start;
+      transition: border-color 0.2s;
+    }
+    .slide-link:hover { border-color: var(--white); }
+    .slide-badge {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      color: var(--mid);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 20px;
+      padding: 4px 12px;
+      align-self: flex-start;
+    }
+    .carousel-arrow {
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--mid);
+      font-size: 18px;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: color 0.2s, border-color 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .carousel-arrow:hover { color: var(--white); border-color: rgba(255,255,255,0.3); }
+    .carousel-dots {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 20px;
+    }
+    .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--mid);
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .dot.active { background: var(--white); }
   </style>
 </head>
 <body>
@@ -175,6 +272,34 @@
         <p class="eyebrow">Welcome to Big Crumbs</p>
         <h1>A company committed to creativity and value.</h1>
         <p>Big Crumbs is a creative outlet focused on business, finance, and the world around us, as well as a home for tools and projects built with the same curiosity.</p>
+      </div>
+    </section>
+
+    <section class="projects">
+      <div class="container">
+        <p class="section-label">Projects</p>
+        <div class="carousel-wrapper">
+          <button class="carousel-arrow left" onclick="slide(-1)">&#8592;</button>
+          <div class="carousel-track" id="carousel">
+            <div class="carousel-slide">
+              <p class="slide-eyebrow">YouTube</p>
+              <h3>Business Stories Worth Telling</h3>
+              <p>The Big Crumbs YouTube channel covers the stories shaping the modern business landscape — from industry disruptions to the companies redefining how we live and work.</p>
+              <a href="https://www.youtube.com/@TheBigCrumbs" target="_blank" rel="noopener" class="slide-link">Watch on YouTube ↗</a>
+            </div>
+            <div class="carousel-slide">
+              <p class="slide-eyebrow">In Development</p>
+              <h3>Something New Is Coming</h3>
+              <p>A new project is currently in development. More details coming soon.</p>
+              <span class="slide-badge">Coming Soon</span>
+            </div>
+          </div>
+          <button class="carousel-arrow right" onclick="slide(1)">&#8594;</button>
+        </div>
+        <div class="carousel-dots">
+          <span class="dot active" onclick="goTo(0)"></span>
+          <span class="dot" onclick="goTo(1)"></span>
+        </div>
       </div>
     </section>
 
@@ -200,5 +325,17 @@
   </footer>
 
 
-
+  <script>
+    let current = 0;
+    const total = 2;
+    function slide(dir) {
+      current = (current + dir + total) % total;
+      goTo(current);
+    }
+    function goTo(index) {
+      current = index;
+      document.getElementById('carousel').style.transform = `translateX(-${index * 100}%)`;
+      document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === index));
+    }
+  </script>
 </body></html>
