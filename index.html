@@ -162,26 +162,23 @@
       border-bottom: 1px solid var(--border);
     }
     .carousel-wrapper {
-      display: flex;
+      display: grid;
+      grid-template-columns: 36px 1fr 36px;
       align-items: center;
       gap: 16px;
-      position: relative;
-      overflow: hidden;
     }
     .carousel-track {
       display: flex;
       transition: transform 0.4s ease;
       width: 100%;
+      overflow: hidden;
     }
     .carousel-slide {
       min-width: 100%;
-      padding: 40px;
-      background: #111;
-      border-radius: 12px;
-      border: 1px solid var(--border);
+      padding: 20px 0;
       display: flex;
       flex-direction: column;
-      gap: 14px;
+      gap: 20px;
     }
     .slide-eyebrow {
       font-size: 11px;
@@ -253,6 +250,33 @@
       transition: background 0.2s;
     }
     .dot.active { background: var(--white); }
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 8px;
+    }
+    .video-thumb {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .video-thumb img {
+      width: 100%;
+      aspect-ratio: 16/9;
+      object-fit: cover;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      transition: opacity 0.2s;
+    }
+    .video-thumb:hover img { opacity: 0.8; }
+    .video-thumb span {
+      font-size: 12px;
+      color: rgba(245,245,243,0.6);
+      line-height: 1.4;
+    }
   </style>
 </head>
 <body>
@@ -282,10 +306,30 @@
           <button class="carousel-arrow left" onclick="slide(-1)">&#8592;</button>
           <div class="carousel-track" id="carousel">
             <div class="carousel-slide">
-              <p class="slide-eyebrow">YouTube</p>
+              <div style="display:flex;align-items:center;gap:8px;">
+                <svg width="20" height="14" viewBox="0 0 20 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect width="20" height="14" rx="3" fill="#FF0000"/>
+                  <path d="M8 4L14 7L8 10V4Z" fill="white"/>
+                </svg>
+                <p class="slide-eyebrow" style="margin:0;">YouTube</p>
+              </div>
               <h3>Business Stories Worth Telling</h3>
               <p>The Big Crumbs YouTube channel covers the stories shaping the modern business landscape — from industry disruptions to the companies redefining how we live and work.</p>
-              <a href="https://www.youtube.com/@TheBigCrumbs" target="_blank" rel="noopener" class="slide-link">Watch on YouTube ↗</a>
+              <div class="video-grid">
+                <a class="video-thumb" href="https://www.youtube.com/watch?v=ZVCln2WgYuk" target="_blank" rel="noopener">
+                  <img src="https://img.youtube.com/vi/ZVCln2WgYuk/hqdefault.jpg" alt="Netflix House">
+                  <span>Netflix House</span>
+                </a>
+                <a class="video-thumb" href="https://www.youtube.com/watch?v=bd37Xe997ow" target="_blank" rel="noopener">
+                  <img src="https://img.youtube.com/vi/bd37Xe997ow/hqdefault.jpg" alt="SpaceX IPO">
+                  <span>SpaceX IPO</span>
+                </a>
+                <a class="video-thumb" href="https://www.youtube.com/watch?v=Ymq_CymMElg" target="_blank" rel="noopener">
+                  <img src="https://img.youtube.com/vi/Ymq_CymMElg/hqdefault.jpg" alt="Anthropic's Meteoric Rise">
+                  <span>Anthropic's Meteoric Rise</span>
+                </a>
+              </div>
+              <a href="https://www.youtube.com/@TheBigCrumbs" target="_blank" rel="noopener" class="slide-link">View all videos ↗</a>
             </div>
             <div class="carousel-slide">
               <p class="slide-eyebrow">In Development</p>
