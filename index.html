@@ -167,14 +167,18 @@
       align-items: center;
       gap: 16px;
     }
+    .carousel-wrapper-inner {
+      overflow: hidden;
+      width: 100%;
+    }
     .carousel-track {
       display: flex;
       transition: transform 0.4s ease;
       width: 100%;
-      overflow: hidden;
     }
     .carousel-slide {
       min-width: 100%;
+      flex-shrink: 0;
       padding: 20px 0;
       display: flex;
       flex-direction: column;
@@ -304,38 +308,40 @@
         <p class="section-label">Projects</p>
         <div class="carousel-wrapper">
           <button class="carousel-arrow left" onclick="slide(-1)">&#8592;</button>
-          <div class="carousel-track" id="carousel">
-            <div class="carousel-slide">
-              <div style="display:flex;align-items:center;gap:8px;">
-                <svg width="20" height="14" viewBox="0 0 20 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <rect width="20" height="14" rx="3" fill="#FF0000"/>
-                  <path d="M8 4L14 7L8 10V4Z" fill="white"/>
-                </svg>
-                <p class="slide-eyebrow" style="margin:0;">YouTube</p>
+          <div class="carousel-wrapper-inner">
+            <div class="carousel-track" id="carousel">
+              <div class="carousel-slide">
+                <div style="display:flex;align-items:center;gap:8px;">
+                  <svg width="20" height="14" viewBox="0 0 20 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="20" height="14" rx="3" fill="#FF0000"/>
+                    <path d="M8 4L14 7L8 10V4Z" fill="white"/>
+                  </svg>
+                  <p class="slide-eyebrow" style="margin:0;">YouTube</p>
+                </div>
+                <h3>Business Stories Worth Telling</h3>
+                <p>The Big Crumbs YouTube channel covers the stories shaping the modern business landscape — from industry disruptions to the companies redefining how we live and work.</p>
+                <div class="video-grid">
+                  <a class="video-thumb" href="https://www.youtube.com/watch?v=ZVCln2WgYuk" target="_blank" rel="noopener">
+                    <img src="https://img.youtube.com/vi/ZVCln2WgYuk/hqdefault.jpg" alt="Netflix House">
+                    <span>Netflix House</span>
+                  </a>
+                  <a class="video-thumb" href="https://www.youtube.com/watch?v=bd37Xe997ow" target="_blank" rel="noopener">
+                    <img src="https://img.youtube.com/vi/bd37Xe997ow/hqdefault.jpg" alt="SpaceX IPO">
+                    <span>SpaceX IPO</span>
+                  </a>
+                  <a class="video-thumb" href="https://www.youtube.com/watch?v=Ymq_CymMElg" target="_blank" rel="noopener">
+                    <img src="https://img.youtube.com/vi/Ymq_CymMElg/hqdefault.jpg" alt="Anthropic's Meteoric Rise">
+                    <span>Anthropic's Meteoric Rise</span>
+                  </a>
+                </div>
+                <a href="https://www.youtube.com/@TheBigCrumbs" target="_blank" rel="noopener" class="slide-link">View all videos ↗</a>
               </div>
-              <h3>Business Stories Worth Telling</h3>
-              <p>The Big Crumbs YouTube channel covers the stories shaping the modern business landscape — from industry disruptions to the companies redefining how we live and work.</p>
-              <div class="video-grid">
-                <a class="video-thumb" href="https://www.youtube.com/watch?v=ZVCln2WgYuk" target="_blank" rel="noopener">
-                  <img src="https://img.youtube.com/vi/ZVCln2WgYuk/hqdefault.jpg" alt="Netflix House">
-                  <span>Netflix House</span>
-                </a>
-                <a class="video-thumb" href="https://www.youtube.com/watch?v=bd37Xe997ow" target="_blank" rel="noopener">
-                  <img src="https://img.youtube.com/vi/bd37Xe997ow/hqdefault.jpg" alt="SpaceX IPO">
-                  <span>SpaceX IPO</span>
-                </a>
-                <a class="video-thumb" href="https://www.youtube.com/watch?v=Ymq_CymMElg" target="_blank" rel="noopener">
-                  <img src="https://img.youtube.com/vi/Ymq_CymMElg/hqdefault.jpg" alt="Anthropic's Meteoric Rise">
-                  <span>Anthropic's Meteoric Rise</span>
-                </a>
+              <div class="carousel-slide">
+                <p class="slide-eyebrow">In Development</p>
+                <h3>Something New Is Coming</h3>
+                <p>A new project is currently in development. More details coming soon.</p>
+                <span class="slide-badge">Coming Soon</span>
               </div>
-              <a href="https://www.youtube.com/@TheBigCrumbs" target="_blank" rel="noopener" class="slide-link">View all videos ↗</a>
-            </div>
-            <div class="carousel-slide">
-              <p class="slide-eyebrow">In Development</p>
-              <h3>Something New Is Coming</h3>
-              <p>A new project is currently in development. More details coming soon.</p>
-              <span class="slide-badge">Coming Soon</span>
             </div>
           </div>
           <button class="carousel-arrow right" onclick="slide(1)">&#8594;</button>
@@ -380,6 +386,9 @@
       current = index;
       document.getElementById('carousel').style.transform = `translateX(-${index * 100}%)`;
       document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === index));
+      document.querySelector('.carousel-arrow.left').style.visibility = index === 0 ? 'hidden' : 'visible';
+      document.querySelector('.carousel-arrow.right').style.visibility = index === total - 1 ? 'hidden' : 'visible';
     }
+    goTo(0);
   </script>
 </body></html>
