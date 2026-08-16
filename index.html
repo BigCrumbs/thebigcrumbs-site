@@ -265,10 +265,13 @@
       pointer-events: none;
       z-index: 0;
       opacity: 0;
-      transition: opacity 1.2s ease-in-out;
+      transform: translate(0%, 0%);
+      transition: opacity 1s ease-in-out;
     }
-    .st-icon-glow.active {
+    .st-icon-glow.visible {
       opacity: 1;
+    }
+    .st-icon-glow.circling {
       animation: stIconGlowDrift 11.25s linear infinite;
     }
     @keyframes stIconGlowDrift {
@@ -550,11 +553,24 @@
       }
     }
 
-    function startIconGlow(initialDelay) {
+    function fadeInIconGlow(delay) {
       setTimeout(() => {
         const el = document.getElementById('st-icon-glow');
-        if (el) el.classList.add('active');
-      }, initialDelay);
+        if (el) el.classList.add('visible');
+      }, delay);
+    }
+
+    function startIconGlowCircuit(delay) {
+      setTimeout(() => {
+        const el = document.getElementById('st-icon-glow');
+        if (!el) return;
+        // Ease from dormant center position into the loop's starting point, then hand off to the infinite animation
+        el.style.transition = 'transform 1s ease-in-out';
+        el.style.transform = 'translate(4%, 0%)';
+        setTimeout(() => {
+          el.classList.add('circling');
+        }, 1000);
+      }, delay);
     }
 
     function playScreenTariffIntro() {
@@ -589,8 +605,10 @@
         });
       }, storesFinishTime + NAV_DELAY_AFTER_STORES);
 
-      // Icon glow: fades in 1s after the store icons finish fading in, then drifts continuously
-      startIconGlow(storesFinishTime + 1000);
+      // Icon glow: fades in alongside the icon itself, staying dormant at center
+      fadeInIconGlow(START_DELAY);
+      // 1s after the store icons finish fading in, ease from center into the continuous drifting loop
+      startIconGlowCircuit(storesFinishTime + 1000);
     }
 
     function showScreenTariffInstantly() {
@@ -610,8 +628,14 @@
         }
       });
 
-      // Icon glow: content is already visible instantly on refresh, so start after a short fixed delay
-      startIconGlow(500);
+      // Icon glow: content is already visible instantly on refresh
+      const glowEl = document.getElementById('st-icon-glow');
+      if (glowEl) {
+        glowEl.style.transition = 'none';
+        glowEl.classList.add('visible');
+      }
+      // Still ease into the drifting loop after a short fixed delay
+      startIconGlowCircuit(500);
     }
 
     function initScreenTariffIntro() {
