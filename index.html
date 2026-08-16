@@ -370,9 +370,9 @@
               </div>
             </div>
           </div>
-          <button class="carousel-arrow right" onclick="slide(1)">&#8594;</button>
+          <button id="st-next-arrow" class="carousel-arrow right" onclick="slide(1)" style="opacity: 0; transition: opacity 1s ease-in-out;">&#8594;</button>
         </div>
-        <div class="carousel-dots">
+        <div id="st-dots" class="carousel-dots" style="opacity: 0; transition: opacity 1s ease-in-out;">
           <span class="dot active" onclick="goTo(0)"></span>
           <span class="dot" onclick="goTo(1)"></span>
         </div>
@@ -537,6 +537,18 @@
           });
         }, START_DELAY + i * STEP_DURATION);
       });
+
+      // Right arrow + dots: fade in (opacity only, no movement) 1s after the store icons finish fading in
+      const storesFinishTime = START_DELAY + steps.length * STEP_DURATION; // when 'st-stores' fade completes
+      const NAV_DELAY_AFTER_STORES = 1000;
+      setTimeout(() => {
+        ['st-next-arrow', 'st-dots'].forEach(id => {
+          const el = document.getElementById(id);
+          if (el) {
+            el.style.opacity = '1';
+          }
+        });
+      }, storesFinishTime + NAV_DELAY_AFTER_STORES);
     }
 
     function showScreenTariffInstantly() {
@@ -546,6 +558,13 @@
           el.style.transition = 'none';
           el.style.opacity = '1';
           el.style.transform = 'translateY(0)';
+        }
+      });
+      ['st-next-arrow', 'st-dots'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+          el.style.transition = 'none';
+          el.style.opacity = '1';
         }
       });
     }
