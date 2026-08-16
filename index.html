@@ -365,7 +365,7 @@
               <div class="carousel-slide">
                 <div style="position: relative; display: flex; justify-content: center; margin-top: 30px; margin-bottom: 8px;">
                   <img src="Stickheadweb.png" alt="" style="position: absolute; top: -25px; width: 90px; height: auto; z-index: 1;">
-                  <img src="youtube2.png" alt="YouTube" style="position: relative; height: 80px; width: auto; z-index: 2;">
+                  <img src="youtube2.png" alt="YouTube" style="position: relative; height: 128px; width: auto; z-index: 2;">
                 </div>
                 <h3>The Official Big Crumbs YouTube Channel</h3>
                 <p>Covering standout stories in the business world, from industry disruptions to comical blunders to the companies redefining our rapidly changing economy.</p>
@@ -417,3 +417,21 @@
       </div>
     </div>
   </footer>
+
+  <script>
+    let current = 0;
+    const total = 2;
+    function slide(dir) {
+      current = (current + dir + total) % total;
+      goTo(current);
+    }
+    function goTo(index) {
+      current = index;
+      document.getElementById('carousel').style.transform = `translateX(-${index * 100}%)`;
+      document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === index));
+      document.querySelector('.carousel-arrow.left').style.visibility = index === 0 ? 'hidden' : 'visible';
+      document.querySelector('.carousel-arrow.right').style.visibility = index === total - 1 ? 'hidden' : 'visible';
+    }
+    goTo(0);
+  </script>
+</body></html>
