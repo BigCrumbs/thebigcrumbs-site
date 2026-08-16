@@ -439,16 +439,25 @@
     function sleep(ms) { return new Promise(resolve => setTimeout(resolve, ms)); }
 
     const stickHead = document.getElementById('stickhead');
-    const HEAD_PEEK_OFFSET_PX = 150; // fixed distance from center — same on every viewport width, so portrait and landscape travel identically
-    const HEAD_STATES = {
-      top:    { left: '50%', top: '-25px', rotate: 0 },
-      hidden: { left: '50%', top: '40px',  rotate: 0 },
-      left:   { left: `calc(50% - ${HEAD_PEEK_OFFSET_PX}px)`, top: '10px', rotate: -45 },
-      right:  { left: `calc(50% + ${HEAD_PEEK_OFFSET_PX}px)`, top: '50px', rotate: 90 }
-    };
+    const youtubeLogoImg = document.querySelector('.carousel-slide img[alt="YouTube"]');
+    const PEEK_OFFSET_RATIO = 0.35; // fraction of the logo's rendered width — tune this to adjust how far the head travels
+
+    function getPeekOffsetPx() {
+      return youtubeLogoImg.getBoundingClientRect().width * PEEK_OFFSET_RATIO;
+    }
+
+    function getHeadStates() {
+      const offset = getPeekOffsetPx();
+      return {
+        top:    { left: '50%', top: '-25px', rotate: 0 },
+        hidden: { left: '50%', top: '40px',  rotate: 0 },
+        left:   { left: `calc(50% - ${offset}px)`, top: '10px', rotate: -45 },
+        right:  { left: `calc(50% + ${offset}px)`, top: '50px', rotate: 90 }
+      };
+    }
 
     function moveHead(state, durationSec) {
-      const s = HEAD_STATES[state];
+      const s = getHeadStates()[state];
       stickHead.style.transition = `top ${durationSec}s ease, left ${durationSec}s ease, transform ${durationSec}s ease`;
       stickHead.style.left = s.left;
       stickHead.style.top = s.top;
@@ -487,7 +496,7 @@
     }
 
     async function resumeStickHeadAfterRefresh() {
-      const h = HEAD_STATES.hidden;
+      const h = getHeadStates().hidden;
       stickHead.style.transition = 'none';
       stickHead.style.left = h.left;
       stickHead.style.top = h.top;
