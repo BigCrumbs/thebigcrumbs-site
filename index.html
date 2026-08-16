@@ -442,8 +442,8 @@
     const HEAD_STATES = {
       top:    { left: '50%', top: '-25px', rotate: 0 },
       hidden: { left: '50%', top: '40px',  rotate: 0 },
-      left:   { left: '5%',  top: '10px',  rotate: -45 },
-      right:  { left: '95%', top: '50px',  rotate: 90 }
+      left:   { left: 'clamp(16px, 5%, 70px)', top: '10px', rotate: -45 },
+      right:  { left: 'calc(100% - clamp(16px, 5%, 70px))', top: '50px', rotate: 90 }
     };
 
     function moveHead(state, durationSec) {
