@@ -253,32 +253,30 @@
       padding: 4px 12px;
       align-self: flex-start;
     }
-    .st-icon-shine {
+    .st-icon-glow {
       position: absolute;
-      inset: 0;
-      bottom: 8px; /* accounts for the icon's margin-bottom so the ring aligns with the image, not the wrapper's extra space */
+      top: -25%;
+      left: -25%;
+      width: 150%;
+      height: 150%;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,255,255,0.35) 0%, rgba(255,255,255,0) 70%);
+      filter: blur(18px);
       pointer-events: none;
-      background: conic-gradient(from 0deg, transparent 0deg, transparent 330deg, rgba(255,255,255,0.85) 350deg, transparent 360deg);
-      -webkit-mask-image: url('Appiconweb-mask.png'), url('Appiconweb-mask.png');
-      -webkit-mask-size: 87% 82%, 82% 77%;
-      -webkit-mask-position: center, center;
-      -webkit-mask-repeat: no-repeat, no-repeat;
-      -webkit-mask-composite: source-out;
-      mask-image: url('Appiconweb-mask.png'), url('Appiconweb-mask.png');
-      mask-size: 87% 82%, 82% 77%;
-      mask-position: center, center;
-      mask-repeat: no-repeat, no-repeat;
-      mask-composite: exclude;
+      z-index: 0;
       opacity: 0;
+      transition: opacity 1.2s ease-in-out;
     }
-    .st-icon-shine.playing {
-      animation: stIconShineSweep 1.6s linear;
+    .st-icon-glow.active {
+      opacity: 1;
+      animation: stIconGlowDrift 9s ease-in-out infinite;
     }
-    @keyframes stIconShineSweep {
-      0%   { transform: rotate(0deg);   opacity: 0; }
-      8%   { opacity: 1; }
-      92%  { opacity: 1; }
-      100% { transform: rotate(360deg); opacity: 0; }
+    @keyframes stIconGlowDrift {
+      0%   { transform: translate(0%, 0%); }
+      25%  { transform: translate(8%, -10%); }
+      50%  { transform: translate(-10%, 6%); }
+      75%  { transform: translate(-6%, -8%); }
+      100% { transform: translate(0%, 0%); }
     }
     .carousel-arrow {
       background: none;
@@ -361,9 +359,9 @@
           <div class="carousel-wrapper-inner">
             <div class="carousel-track" id="carousel">
               <div class="carousel-slide" style="align-items: center; text-align: center; margin-top: -30px;">
-                <div class="st-icon-wrap" style="position: relative; display: inline-block; border-radius: 24px;">
-                  <img id="st-icon" src="Appiconweb.png" alt="Screen Tariff" style="height: 160px; width: 155px; margin-bottom: 8px; display: block; opacity: 0; transform: translateY(20px); transition: opacity 1s ease-in-out, transform 1s ease-in-out;">
-                  <div id="st-icon-shine" class="st-icon-shine"></div>
+                <div class="st-icon-wrap" style="position: relative; display: inline-block;">
+                  <div id="st-icon-glow" class="st-icon-glow"></div>
+                  <img id="st-icon" src="Appiconweb.png" alt="Screen Tariff" style="position: relative; z-index: 1; height: 160px; width: 155px; margin-bottom: 8px; display: block; opacity: 0; transform: translateY(20px); transition: opacity 1s ease-in-out, transform 1s ease-in-out;">
                 </div>
                 <h3 id="st-heading" style="opacity: 0; transform: translateY(20px); transition: opacity 1s ease-in-out, transform 1s ease-in-out;">Screen Tariff: The Flagship Mobile App</h3>
                 <p id="st-body" style="opacity: 0; transform: translateY(20px); transition: opacity 1s ease-in-out, transform 1s ease-in-out;">Sanction your distractions. Screen Tariff introduces a deliberate ad break before you can access your most distracting apps, putting you back in control of your attention.</p>
@@ -548,18 +546,10 @@
       }
     }
 
-    function triggerIconShine() {
-      const el = document.getElementById('st-icon-shine');
-      if (!el) return;
-      el.classList.remove('playing');
-      void el.offsetWidth; // force reflow so the animation can restart
-      el.classList.add('playing');
-    }
-
-    function startIconShineLoop(initialDelay) {
+    function startIconGlow(initialDelay) {
       setTimeout(() => {
-        triggerIconShine();
-        setInterval(triggerIconShine, 12000);
+        const el = document.getElementById('st-icon-glow');
+        if (el) el.classList.add('active');
       }, initialDelay);
     }
 
@@ -595,8 +585,8 @@
         });
       }, storesFinishTime + NAV_DELAY_AFTER_STORES);
 
-      // Icon shine loop: first sweep 0.5s after the store icons finish fading in
-      startIconShineLoop(storesFinishTime + 500);
+      // Icon glow: fades in 1s after the store icons finish fading in, then drifts continuously
+      startIconGlow(storesFinishTime + 1000);
     }
 
     function showScreenTariffInstantly() {
@@ -616,8 +606,8 @@
         }
       });
 
-      // Icon shine loop: content is already visible instantly on refresh, so start after a short fixed delay
-      startIconShineLoop(500);
+      // Icon glow: content is already visible instantly on refresh, so start after a short fixed delay
+      startIconGlow(500);
     }
 
     function initScreenTariffIntro() {
