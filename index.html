@@ -256,13 +256,18 @@
     .st-icon-shine {
       position: absolute;
       inset: 0;
-      bottom: 8px; /* accounts for the icon's margin-bottom so the ring hugs the image, not the wrapper's extra space */
-      border-radius: 24px;
-      padding: 2px;
+      bottom: 8px; /* accounts for the icon's margin-bottom so the ring aligns with the image, not the wrapper's extra space */
       pointer-events: none;
       background: conic-gradient(from 0deg, transparent 0deg, transparent 330deg, rgba(255,255,255,0.85) 350deg, transparent 360deg);
-      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-      -webkit-mask-composite: xor;
+      -webkit-mask-image: url('Appiconweb-mask.png'), url('Appiconweb-mask.png');
+      -webkit-mask-size: 87% 82%, 82% 77%;
+      -webkit-mask-position: center, center;
+      -webkit-mask-repeat: no-repeat, no-repeat;
+      -webkit-mask-composite: source-out;
+      mask-image: url('Appiconweb-mask.png'), url('Appiconweb-mask.png');
+      mask-size: 87% 82%, 82% 77%;
+      mask-position: center, center;
+      mask-repeat: no-repeat, no-repeat;
       mask-composite: exclude;
       opacity: 0;
     }
