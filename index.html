@@ -314,20 +314,6 @@
       line-height: 1.3;
       display: block;
     }
-
-    /* Stick head peek distance — fixed offset from center so it doesn't scale
-       with container width. Portrait keeps the original 150px; landscape
-       (much wider viewport, same fixed offset would look ~100px too far)
-       gets its own smaller value. Only this value differs by orientation —
-       everything else about the animation is untouched. */
-    :root {
-      --stickhead-peek-offset: 150px;
-    }
-    @media (orientation: landscape) {
-      :root {
-        --stickhead-peek-offset: 50px;
-      }
-    }
   </style>
 </head>
 <body>
@@ -453,11 +439,12 @@
     function sleep(ms) { return new Promise(resolve => setTimeout(resolve, ms)); }
 
     const stickHead = document.getElementById('stickhead');
+    const HEAD_PEEK_OFFSET_PX = 150; // fixed distance from center — same on every viewport width, so portrait and landscape travel identically
     const HEAD_STATES = {
       top:    { left: '50%', top: '-25px', rotate: 0 },
       hidden: { left: '50%', top: '40px',  rotate: 0 },
-      left:   { left: 'calc(50% - var(--stickhead-peek-offset))', top: '10px', rotate: -45 },
-      right:  { left: 'calc(50% + var(--stickhead-peek-offset))', top: '50px', rotate: 90 }
+      left:   { left: `calc(50% - ${HEAD_PEEK_OFFSET_PX}px)`, top: '10px', rotate: -45 },
+      right:  { left: `calc(50% + ${HEAD_PEEK_OFFSET_PX}px)`, top: '50px', rotate: 90 }
     };
 
     function moveHead(state, durationSec) {
