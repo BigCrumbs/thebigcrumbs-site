@@ -334,13 +334,13 @@
           <div class="carousel-wrapper-inner">
             <div class="carousel-track" id="carousel">
               <div class="carousel-slide" style="align-items: center; text-align: center; margin-top: -30px;">
-                <img src="Appiconweb.png" alt="Screen Tariff" style="height: 160px; width: 155px; margin-bottom: 8px;">
-                <h3>Screen Tariff: The Flagship Mobile App</h3>
-                <p>Sanction your distractions. Screen Tariff introduces a deliberate ad break before you can access your most distracting apps, putting you back in control of your attention.</p>
+                <img id="st-icon" src="Appiconweb.png" alt="Screen Tariff" style="height: 160px; width: 155px; margin-bottom: 8px; opacity: 0; transform: translateY(20px); transition: opacity 1s ease-in-out, transform 1s ease-in-out;">
+                <h3 id="st-heading" style="opacity: 0; transform: translateY(20px); transition: opacity 1s ease-in-out, transform 1s ease-in-out;">Screen Tariff: The Flagship Mobile App</h3>
+                <p id="st-body" style="opacity: 0; transform: translateY(20px); transition: opacity 1s ease-in-out, transform 1s ease-in-out;">Sanction your distractions. Screen Tariff introduces a deliberate ad break before you can access your most distracting apps, putting you back in control of your attention.</p>
                 <div style="display:flex; gap:12px; align-items:center; margin-top:8px;">
                 </div>
                 <!-- Placeholder for download links — replace href="#" when live -->
-                <div style="display:flex; gap:27px; align-items:center; margin-top:8px;">
+                <div id="st-stores" style="display:flex; gap:27px; align-items:center; margin-top:8px; opacity: 0; transform: translateY(20px); transition: opacity 1s ease-in-out, transform 1s ease-in-out;">
                   <img src="App store icon2.png" alt="App Store" style="height: 29px; width: auto;">
                   <img src="Google play icon2.png" alt="Google Play" style="height: 29px; width: auto;">
                 </div>
@@ -518,8 +518,50 @@
       }
     }
 
+    function playScreenTariffIntro() {
+      const steps = [
+        ['st-icon'],
+        ['st-heading', 'st-body'],
+        ['st-stores']
+      ];
+      const START_DELAY = 400;
+      const STEP_DURATION = 1000;
+      steps.forEach((ids, i) => {
+        setTimeout(() => {
+          ids.forEach(id => {
+            const el = document.getElementById(id);
+            if (el) {
+              el.style.opacity = '1';
+              el.style.transform = 'translateY(0)';
+            }
+          });
+        }, START_DELAY + i * STEP_DURATION);
+      });
+    }
+
+    function showScreenTariffInstantly() {
+      ['st-icon', 'st-heading', 'st-body', 'st-stores'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+          el.style.transition = 'none';
+          el.style.opacity = '1';
+          el.style.transform = 'translateY(0)';
+        }
+      });
+    }
+
+    function initScreenTariffIntro() {
+      if (sessionStorage.getItem('bcScreenTariffIntroPlayed')) {
+        showScreenTariffInstantly();
+      } else {
+        sessionStorage.setItem('bcScreenTariffIntroPlayed', '1');
+        playScreenTariffIntro();
+      }
+    }
+
     const savedSlide = parseInt(sessionStorage.getItem('bcCarouselSlide'), 10);
     goTo(isNaN(savedSlide) ? 0 : savedSlide);
     initStickHead();
+    initScreenTariffIntro();
   </script>
 </body></html>
